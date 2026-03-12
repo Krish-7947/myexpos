@@ -1,0 +1,59 @@
+type
+    list {
+        int val;
+        list next;
+    }
+endtype
+
+int main(){
+decl
+    list head,newnode,tempNode;
+    int i,temp,pid;
+enddecl
+begin
+    i = 1;
+    temp = initialize();
+    head = null;
+    while(i<=100) do
+        newnode = alloc();
+        newnode.val = i;
+        newnode.next = null;
+
+        if(head == null) then
+            head = newnode;
+            tempNode = head;
+        else
+            tempNode.next = newnode;
+            tempNode = newnode;
+        endif;
+        i = i + 1;
+    endwhile;
+
+    pid = exposcall("Fork");
+    if(pid == 0) then
+        tempNode = head.next;
+        while(tempNode != null) do
+            temp = exposcall("Write",-2,tempNode.val);
+            tempNode = tempNode.next;
+            if(tempNode == null) then
+                break;
+            else
+                tempNode = tempNode.next;
+            endif;
+        endwhile;
+    else
+        tempNode = head;
+        while(tempNode != null) do
+            temp = exposcall("Write",-2,tempNode.val);
+            tempNode = tempNode.next;
+            if(tempNode == null) then
+                break;
+            else
+                tempNode = tempNode.next;
+            endif;
+        endwhile;
+    endif;
+    
+    return 0;
+end
+}

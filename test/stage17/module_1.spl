@@ -1,0 +1,66 @@
+alias function_num R1;
+alias currPID R2;
+
+if(function_num == 2) then
+    alias userAreaPageNumber R3;
+    userAreaPageNumber = [PROCESS_TABLE + 16 * currPID + 11];
+
+    multipush(R1, R2, R3);
+
+    R1 = 2;
+    R2 = userAreaPageNumber;
+    call MOD_2;
+
+    multipop(R1, R2, R3);
+
+    return;
+endif;
+
+if(function_num == 3) then
+    multipush(R1, R2);
+
+    R1 = 4;
+    R2 = currPID;
+    call MOD_1;
+
+    R1 = 2;
+    R2 = currPID;
+    call MOD_1;
+
+    multipop(R1, R2);
+
+    [PROCESS_TABLE + 16 * currPID + 4] = TERMINATED;
+    return;
+endif;
+
+if(function_num == 4) then
+    PTBR = PAGE_TABLE_BASE + 20*currPID;
+    PTLR = 10;
+    [PTBR + 0] = -1;
+    [PTBR + 1] = "0000";
+    [PTBR + 2] = -1;
+    [PTBR + 3] = "0000";
+
+    alias i R3;
+    alias pageNumber R4;
+
+    i = 1;
+    while (i < (PTLR - 1)) do
+        pageNumber = [PTBR + 2 + 2 * i];
+        if (pageNumber != -1) then
+            multipush(R1, R2, R3, R4);
+
+            R1 = 2;
+            R2 = pageNumber;
+            call MOD_2;
+
+            multipop(R1, R2, R3, R4);
+
+            [PTBR + 2 + 2 * i] = -1;
+            [PTBR + 3 + 2 * i] = "0000";
+        endif;
+        i = i + 1;
+    endwhile;
+
+    return;
+endif;
