@@ -1,0 +1,40 @@
+alias currid R0;
+alias process_table_entry R1;
+currid = [SYSTEM_STATUS_TABLE + 1];
+process_table_entry = PROCESS_TABLE + currid*16;
+
+multipush(BP);
+
+[process_table_entry + 12] = SP % 512;
+[process_table_entry + 14] = PTBR;
+[process_table_entry + 15] = PTLR;
+
+alias newpid R2;
+alias i R3;
+newpid = 0;
+i=currid+1;
+
+while(i<16) do
+    if([PROCESS_TABLE + i*16 + 4]==READY || [PROCESS_TABLE + i*16 + 4]==CREATED) then
+        newpid = i;
+        break;
+    endif;
+    i = i + 1;
+endwhile;
+
+SP = [PROCESS_TABLE + newpid*16 + 11]*512 + [PROCESS_TABLE + newpid*16 + 12];
+PTBR = [PROCESS_TABLE + newpid*16 + 14];
+PTLR = [PROCESS_TABLE + newpid*16 + 15];
+
+[SYSTEM_STATUS_TABLE + 1] = newpid;
+
+if([PROCESS_TABLE + newpid*16 + 4]==CREATED) then
+    SP = [PROCESS_TABLE + newpid*16 + 13];
+    [PROCESS_TABLE + newpid*16 + 4] = RUNNING;
+    [PROCESS_TABLE + newpid*16 + 9] = 0;
+    ireturn;
+endif;
+
+[PROCESS_TABLE + newpid*16 + 4] = RUNNING;
+multipop(BP);
+return;
