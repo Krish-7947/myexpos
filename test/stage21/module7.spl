@@ -77,6 +77,9 @@ loadi(25, 38);
 loadi(32, 45);
 loadi(33, 46);
 
+loadi(52,65);
+loadi(53,66);
+
 // memory free list initialization
 alias i R0;
 i = 0;

@@ -1,0 +1,102 @@
+alias userSP R2;
+
+multipush(R2);
+R1 = 1;
+call MOD_1;
+multipop(R2);
+
+alias childPID R0;
+
+if(childPID == -1) then
+    [[PTBR + 2 * (userSP - 1)/512]*512 + (userSP - 1)%512] = -1;
+    SP = userSP;
+    [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1]*16 + 9] = 0;
+    ireturn;
+endif;
+
+if([PTBR + 4] == -1) then
+    multipush(R0,R1,R2);
+        R1 = 1;
+        call MOD_2;
+        [PTBR + 4] = R0;
+        [PTBR + 5] = "0110";
+        
+        R1 = 1;
+        call MOD_2;
+        [PTBR + 6] = R0;
+        [PTBR + 7] = "0110";
+    multipop(R0,R1,R2);
+endif;
+
+alias new_PTBR R3;
+new_PTBR = PAGE_TABLE_BASE + childPID*20;
+
+multipush(R0,R1,R2,R3);
+    R1 = 1;
+    call MOD_2;
+    R4 = R0;
+multipop(R0,R1,R2,R3);
+[new_PTBR + 16] = R4;
+[new_PTBR + 17] = "0110";
+    
+multipush(R0,R1,R2,R3);
+    R1 = 1;
+    call MOD_2;
+    R4 = R0;
+multipop(R0,R1,R2,R3);
+[new_PTBR + 18] = R4;
+[new_PTBR + 19] = "0110";
+
+[PROCESS_TABLE + childPID*16 + 3] = [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1]*16 + 3];
+[PROCESS_TABLE + childPID*16 + 6] = [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1]*16 + 6];
+[PROCESS_TABLE + childPID*16 + 10] = [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1]*16 + 10];
+[PROCESS_TABLE + childPID*16 + 7] = [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1]*16 + 7];
+[PROCESS_TABLE + childPID*16 + 13] = [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1]*16 + 13];
+
+[PROCESS_TABLE + childPID*16 + 9] = 0;
+[PROCESS_TABLE + childPID*16 + 12] = 0;
+[PROCESS_TABLE + childPID*16 + 0] = 0;
+[PROCESS_TABLE + childPID*16 + 2] = [SYSTEM_STATUS_TABLE + 1];
+[PROCESS_TABLE + childPID*16 + 4] = CREATED;
+
+multipush(R0,R1,R2,R3);
+    R1 = 1;
+    call MOD_2;
+    R4 = R0;
+multipop(R0,R1,R2,R3);
+[PROCESS_TABLE + childPID*16 + 11] = R4;
+
+alias i R4;
+i = 512 - 16;
+while (i < 512) do
+    [[PROCESS_TABLE + childPID * 16 + 11] * 512 + i] = [[PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 11] * 512 + i];
+    i = i + 1;
+endwhile;
+
+i = 0;
+while(i<10) do
+    [DISK_MAP_TABLE + childPID*10 + i] = [DISK_MAP_TABLE + [SYSTEM_STATUS_TABLE + 1]*10 + i];
+    i = i + 1;
+endwhile;
+
+i = 0;
+while(i<16) do
+    [new_PTBR + i] = [PTBR + i];
+    [new_PTBR + i + 1] = [PTBR + i + 1];
+    if([PTBR + i] != -1) then
+        [MEMORY_FREE_LIST + [new_PTBR + i]] = [MEMORY_FREE_LIST + [new_PTBR + i]] + 1;
+    endif;
+    i = i + 2;
+endwhile;
+
+i = 0;
+while (i < 512) do
+    [[new_PTBR + 16] * 512 + i] = [[PTBR + 16] * 512 + i];
+    [[new_PTBR + 18] * 512 + i] = [[PTBR + 18] * 512 + i];
+    i = i + 1;
+endwhile;
+
+[[PROCESS_TABLE + childPID * 16 + 11] * 512] = BP;
+[PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1]*16 + 9] = 0;
+
+return;
