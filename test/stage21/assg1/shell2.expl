@@ -7,7 +7,7 @@ enddecl
 begin
     s = "";
     a = 1;
-    prompt = "fname:)";
+    prompt = "--Enter--";
     while(a == 1) do
         temp = exposcall("Write",-2,prompt);
         temp = exposcall("Read",-1,s);
