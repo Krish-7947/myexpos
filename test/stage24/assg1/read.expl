@@ -1,0 +1,21 @@
+int main() {
+    decl
+        int temp, fd, x;
+        str fileName, data;
+    enddecl
+    begin
+        x = 0;
+        temp = exposcall("Write", -2, "Filename: ");
+        temp = exposcall("Read", -1, fileName);
+        fd = exposcall("Open", fileName);
+        if (fd == -1 OR fd == -2 OR fd == -3) then
+            temp = exposcall("Write", -2, fd);
+        else
+            while (x != -2) do
+                x = exposcall("Read", fd, data);
+                temp = exposcall("Write", -2, data);
+            endwhile;
+        endif;
+        return 0;
+    end
+}
