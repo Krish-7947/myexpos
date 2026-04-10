@@ -22,9 +22,18 @@ if (callNumber == 22) then
 
         alias i R5;
         i = 0;
-
         while (i < MAX_USER_NUM) do
-            if ([USER_TABLE + i * 2 + 0] == username || [USER_TABLE + i * 2 + 0] == -1) then 
+            if ([USER_TABLE + i * 2 + 0] == username) then 
+                [returnAddress] = -1;
+                [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 9] = 0;
+                ireturn;
+            endif;
+            i = i + 1;
+        endwhile;
+
+        i = 0;
+        while (i < MAX_USER_NUM) do
+            if ([USER_TABLE + i * 2 + 0] == -1) then 
                 break;
             endif;
             i = i + 1;
