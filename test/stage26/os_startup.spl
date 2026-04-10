@@ -5,10 +5,6 @@ loadi(55, 68);
 // idle code
 loadi(69, 11);
 
-// scheduler(module 5)
-loadi(50, 63);
-loadi(51, 64);
-
 SP = 82 * 512 - 1;
 
 call BOOT_MODULE;
