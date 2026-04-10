@@ -159,7 +159,7 @@ if (functionNumber == 5) then // kill All
     endwhile;
 
     i = 2;
-    while (i < MAX_PROC_NUM - 1) do
+    while (i < MAX_PROC_NUM) do
         if ([PROCESS_TABLE + 16 * i + 1] != currentPID && [PROCESS_TABLE + 16 * i + 4] != TERMINATED) then
             multipush(R1, R2, R5);
             R1 = 3;
