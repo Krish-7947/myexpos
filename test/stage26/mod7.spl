@@ -101,6 +101,10 @@ loadi(47, 60);
 loadi(48, 61);
 loadi(49, 62);
 
+// scheduler(module 5)
+loadi(50, 63);
+loadi(51, 64);
+
 // inode table
 loadi(59, 3);
 loadi(60, 4);
