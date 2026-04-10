@@ -130,8 +130,8 @@ if (functionNum == 7) then // Release semaphore
             i = i + 1;
         endwhile;
 
-        [SEMAPHORE_TABLE + 4 * semId + 1] = [SEMAPHORE_TABLE + 4 * semId + 1] - 1;
     endif;
+    [SEMAPHORE_TABLE + 4 * semId + 1] = [SEMAPHORE_TABLE + 4 * semId + 1] - 1;
     return;
 endif;
 
