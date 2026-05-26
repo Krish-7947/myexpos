@@ -98,7 +98,7 @@ if(callNumber == 23) then
     endif;
 endif;
 
-// Set password
+// Setpwd
 if (callNumber == 24) then 
     if ([SYSTEM_STATUS_TABLE + 1] != 2) then 
         [returnAddress] = -1;

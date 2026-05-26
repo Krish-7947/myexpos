@@ -24,7 +24,6 @@ begin
     while(3 == 3) do
       temp = exposcall("Read", fileDesc, word);
       if(temp == -2) then
-        temp = exposcall("Write", -2, "EOF");
         break;
       endif;
       temp = exposcall("Write", -2, word);
