@@ -1,0 +1,26 @@
+load --init /home/krish/Hello_World/myexpos/test/stage21/assg1/shell2.xsm
+load --idle /home/krish/Hello_World/myexpos/test/stage12/idle_process.xsm
+load --os /home/krish/Hello_World/myexpos/test/stage14/os_startup_code.xsm
+load --exhandler /home/krish/Hello_World/myexpos/test/stage19/exhandler.xsm
+load --int=timer /home/krish/Hello_World/myexpos/test/stage14/timer.xsm
+load --int=disk /home/krish/Hello_World/myexpos/test/stage18/int2.xsm
+load --int=console /home/krish/Hello_World/myexpos/test/stage16/console_interrupt.xsm
+load --int=4 /home/krish/Hello_World/myexpos/test/stage23/int4.xsm
+load --int=5 /home/krish/Hello_World/myexpos/test/stage25/int5.xsm
+load --int=6 /home/krish/Hello_World/myexpos/test/stage24/int6.xsm
+load --int=7 /home/krish/Hello_World/myexpos/test/stage25/int7.xsm
+load --int=8 /home/krish/Hello_World/myexpos/test/stage24/int8.xsm
+load --int=9 /home/krish/Hello_World/myexpos/test/stage19/int9.xsm
+load --int=10 /home/krish/Hello_World/myexpos/test/stage20/INT_10.xsm
+load --int=11 /home/krish/Hello_World/myexpos/test/stage21/int11.xsm
+load --int=13 /home/krish/Hello_World/myexpos/test/stage22/int13.xsm
+load --int=14 /home/krish/Hello_World/myexpos/test/stage22/int14.xsm
+load --int=15 /home/krish/Hello_World/myexpos/test/stage25/int15.xsm
+load --int=17 /home/krish/Hello_World/myexpos/test/stage26/int17.xsm
+load --module 0 /home/krish/Hello_World/myexpos/test/stage24/module0.xsm
+load --module 1 /home/krish/Hello_World/myexpos/test/stage25/module1.xsm
+load --module 2 /home/krish/Hello_World/myexpos/test/stage25/module2.xsm
+load --module 3 /home/krish/Hello_World/myexpos/test/stage25/module3.xsm
+load --module 4 /home/krish/Hello_World/myexpos/test/stage23/module4.xsm
+load --module 5 /home/krish/Hello_World/myexpos/test/stage20/scheduler.xsm
+load --module 7 /home/krish/Hello_World/myexpos/test/stage24/module7.xsm
